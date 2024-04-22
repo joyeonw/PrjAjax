@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	
+</style>
+<script>
+	/*
+	window.onload = function() {
+			const h1Els = document.getElementsByTagName('h1');
+			h1Els[0].style.color = 'blue';
+			h1Els[1].style.color = 'red';
+			
+			const pEls = document.getElementsByTagName('p');
+			for ( let i = 0; i<pEls.length; i++){
+				pEls[i].style.color = 'green';
+			}
+	} */
+</script>
+
+<!-- jquery cdn -->
+<script src="https://code.jquery.com/jquery.min.js"></script>
+
+<script>
+	
+	//jquery : js library 추가 필요
+	// $('h1') : h1 tag 를 찾아라 document.getElementsByTagName('h1')
+	$(document).ready( function() { // window.onload
+			$('h1').css('color', 'blue');
+			$('p').css('color', 'red');
+	});
+	$(function() { //window onload 와 달리 여러번 사용가능
+			$('#div1').html('<p>div1 입니다</p>') // innerHTML : <b>글자</b> 굵게 표시
+			$('#div2').text('<p>div2 입니다</p>') // innerText : <b>글자</b> &lt;&gt;
+			$('div > p').css('text-decoration', 'underline');
+			
+			// 이벤트 연결
+			// js => arrow function 화살표 함수 -> 람다식 표현
+			$('div').on('click', function(e){
+					// e : 발생한 이벤트
+					// e.target : 이벤트 발생시킨 Element
+					console.log( e.target )
+					// 선택한(클릭한) div tag 의 글자색을 녹색으로 변경
+					$('div').css('background-color','green')
+				  //	alert('div1');
+			})
+	});
+</script>
+
+<script>
+/*
+$(document).ready(function() {
+    // 첫 번째 <h1> 요소에 파란색 스타일 적용
+    $('h1:nth-of-type(1)').css('color', 'yellow');
+    // 두 번째 <h1> 요소에 다른 스타일 적용
+    $('h1:nth-of-type(2)').css('color', 'blue'); // 예시로 두 번째 <h1> 요소에 초록색 스타일 적용
+    $('p:nth-of-type(1)').css('color', 'green'); // 모든 <p> 요소에 빨간색 스타일 적용
+    $('p:nth-of-type(3)').css('color', 'purple');
+});
+*/
+</script>
+
+</head>
+<body>
+	<h1>Hello</h1>
+  <p>Lorem Ipsum</p>
+  <h1>Title</h1>
+  <p>Lorem Ipsum</p>
+  <p>Lorem Ipsum</p>
+  <div id="div1"></div>
+  <div id="div2"></div>
+</body>
+</html>
