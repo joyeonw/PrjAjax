@@ -9,22 +9,32 @@
 	<fieldset>
 	<legend>버스정류장정보</legend>
 	<label>한 페이지당 줄수</label>
-	<input type="text" id="numOfRows" value="10"></br>
+	<input type="text" id="numOfRows" value="10"><br>
 	<label>페이지 번호</label>
-	<input type="text" id="pageNo" value="1"></br>
+	<input type="text" id="pageNo" value="1"><br>
 	<label>정류소 명</label>
-	<input type="text" id="bstopnm" value="부산시청"></br>
+	<input type="text" id="bstopnm" value="부산시청"><br>
 	<label>정류소 번호</label>
-	<input type="text" id="arsno" value="13708"></br>
+	<input type="text" id="arsno" value="13708"><br>
 	</fieldset>
 	<button>Ok</button>
+	<button onclick="btnClick()">Ok</button>
 	<div id="output"></div>
+	<a href="http://localhost:8080/GetBus?numOfRows=10&pageNo=1&bstopnm=&arsno=">go</a>
 	
 	<script>
+			function btnClick() {
+					location.href='http://localhost:8080/GetBus?numOfRows=10&pageNo=1&bstopnm=&arsno=';
+			}
 			function xmlToHTML( xmlObj ) {
 				let bstopid  = xmlObj.querySelector('bstopid').innerHTML;
-				let bstopnm  = xmlObj.querySelector('bstopnm').innerHTML ;
-				let arsno    = xmlObj.querySelector('arsno').innerHTML;
+				let bstopnm  = xmlObj.querySelector('bstopnm').innerHTML;
+				
+				let arsnoEl    = xmlObj.querySelector('arsno');
+				let arsno = ''
+				if(arsnoEl != null)
+						arsno = arsnoEl.innerHTML; 
+				
 				let gpsx     = xmlObj.querySelector('gpsx').innerHTML;
 				let gpsy     = xmlObj.querySelector('gpsy').innerHTML;
 				let stoptype = xmlObj.querySelector('stoptype').innerHTML;
@@ -56,17 +66,20 @@
 						bstopnm : bstopnm,
 						arsno : arsno
 				}
-			
-				axios.post('/GetBus', new URLSearchParams(parms) )
+				// node.js axios 라이브러리 호출 
+				// 페이지를 변경하지 않고 서버의 데이터를 가져올 수 있다 : AJAX
+				// 1. XHR(XMLHttpRequest) 객체, 2. $.ajax(), 3. axios, 4. fetch
+				axios.post('http://localhost:8080/GetBus'
+									, new URLSearchParams(parms) )
 					.then((response) => {
-							console.log(response);
+// 							console.log(response);
 							console.log(response.data);
-							let xml = response.data;
+							let xml = response.data; // 문자열
 // 						alert(typeof xml)
 // 							console.dir(xml)
 							// xml <- string xml 문자열을 document(xml)객체로 변환
 							let xmlObj = new DOMParser().parseFromString(xml, "text/xml");
-							console.log(xmlObj);
+							console.log(xmlObj); // xml 객체
 							let items = xmlObj.querySelectorAll('body>items>item');
 							
 							// 일반자바스크립트 객체일 경우
@@ -75,7 +88,7 @@
 									console.log(item);					
 					})
 							*/
-							// tag 배열을 반복할 때 사용 하는 문법
+							// html, xml( tag배열 )을 반복할 때 사용 하는 문법
 							let html ='';
 							Array.from(items).forEach( (item, index) => {
 								html += xmlToHTML(item);			
